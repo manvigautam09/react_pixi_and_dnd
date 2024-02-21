@@ -1,25 +1,21 @@
 "use client";
 
-import { useRef } from "react";
-import { Stage, Text } from "@pixi/react";
+import ReelCanvas from "@/components/VideoMaker";
+import { AppProvider } from "@pixi/react";
+import { Application } from "pixi.js";
 
-const VideoMaker = () => {
-  const stageRef: any = useRef();
+const app = new Application();
 
+const VideoMakerApp = () => {
   return (
-    <div className="flex justify-center items-center h-screen bg-[#FBFCFE]">
-      <div className="w-full sm:w-96 bg-gray-light-5 h-4/5">
-        <Stage
-          ref={stageRef}
-          options={{ backgroundAlpha: 0 }}
-          width={384}
-          height={675}
-        >
-          <Text text="Loading.." />
-        </Stage>
+    <AppProvider value={app}>
+      <div className="flex justify-center items-center h-screen bg-[#FBFCFE]">
+        <div className="w-full sm:w-96 bg-gray-light-5 h-4/5">
+          <ReelCanvas />
+        </div>
       </div>
-    </div>
+    </AppProvider>
   );
 };
 
-export default VideoMaker;
+export default VideoMakerApp;

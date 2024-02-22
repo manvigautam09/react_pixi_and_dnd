@@ -19,6 +19,11 @@ const VideoMakerApp = () => {
             <ReelCanvas />
           </div>
         </div>
+        <div className="flex justify-center items-center h-screen bg-[#FBFCFE]">
+          <div className="w-full sm:w-96 bg-gray-light-5 h-4/5">
+            <ReelCanvas />
+          </div>
+        </div>
       </AppProvider>
     </DndProvider>
   );

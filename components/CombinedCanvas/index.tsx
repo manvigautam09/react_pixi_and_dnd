@@ -10,6 +10,11 @@ const CombinedCanvas = ({
     x: number;
     y: number;
     text: string;
+    style: {
+      fontFamily: string;
+      fontSize: number;
+      fill: string;
+    };
   }[];
   setTexts: Dispatch<
     SetStateAction<
@@ -18,6 +23,11 @@ const CombinedCanvas = ({
         x: number;
         y: number;
         text: string;
+        style: {
+          fontFamily: string;
+          fontSize: number;
+          fill: string;
+        };
       }[]
     >
   >;

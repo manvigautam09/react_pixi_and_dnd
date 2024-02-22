@@ -16,7 +16,13 @@ const VideoMakerApp = () => {
   console.log("### this is the VideoMakerApp");
   // State to keep track of sprite positions
   const [texts, setTexts] = useState([
-    { id: 1, x: 100, y: 100, text: "Hello world" },
+    {
+      id: 1,
+      x: 100,
+      y: 100,
+      text: "Hello world",
+      style: { fontFamily: "Arial", fontSize: 24, fill: "red" },
+    },
     // ... other sprites
   ]);
 

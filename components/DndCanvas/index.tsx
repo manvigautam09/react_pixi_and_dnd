@@ -12,6 +12,11 @@ const DndCanvas = ({
     x: number;
     y: number;
     text: string;
+    style: {
+      fontFamily: string;
+      fontSize: number;
+      fill: string;
+    };
   }[];
   setTexts: Dispatch<
     SetStateAction<
@@ -20,6 +25,11 @@ const DndCanvas = ({
         x: number;
         y: number;
         text: string;
+        style: {
+          fontFamily: string;
+          fontSize: number;
+          fill: string;
+        };
       }[]
     >
   >;
@@ -43,6 +53,7 @@ const DndCanvas = ({
         x={texts[0].x}
         y={texts[0].y}
         text={texts[0].text}
+        style={texts[0].style}
       />
     </DroppableArea>
   );

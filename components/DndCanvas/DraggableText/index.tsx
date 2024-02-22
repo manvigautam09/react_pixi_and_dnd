@@ -6,11 +6,17 @@ const DraggableText = ({
   x,
   y,
   text,
+  style,
 }: {
   id: string;
   x: number;
   y: number;
   text: string;
+  style: {
+    fontFamily: string;
+    fontSize: number;
+    fill: string;
+  };
 }) => {
   const [{ isDragging }, drag] = useDrag(
     () => ({

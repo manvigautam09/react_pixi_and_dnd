@@ -1,40 +1,62 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import { Text } from "@pixi/react";
-import { useDrag } from "react-dnd";
+import * as PIXI from "pixi.js";
 
 const DraggableText = ({
-  id,
-  x,
-  y,
   text,
+  initialX,
+  initialY,
+  style,
 }: {
-  id: string;
-  x: number;
-  y: number;
   text: string;
+  initialX: number;
+  initialY: number;
+  style: object;
 }) => {
-  const [{ isDragging }, drag] = useDrag(
-    () => ({
-      type: "text",
-      item: { id, x, y },
-      collect: (monitor) => ({
-        isDragging: !!monitor.isDragging(),
-      }),
-    }),
-    [id, x, y]
-  ); // Depend on id, x, and y to recreate the drag item when they change
+  const [position, setPosition] = useState({ x: initialX, y: initialY });
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+
+  const onDragStart = useCallback((event: any) => {
+    const { x, y } = event.data.global;
+    setDragStart({ x, y });
+    setIsDragging(true);
+  }, []);
+
+  const onDragEnd = useCallback(() => {
+    setIsDragging(false);
+  }, []);
+
+  const onDragMove = useCallback(
+    (event: any) => {
+      if (isDragging) {
+        const { x, y } = event.data.global;
+        setPosition({
+          x: position.x + (x - dragStart.x),
+          y: position.y + (y - dragStart.y),
+        });
+        setDragStart({ x, y });
+      }
+    },
+    [isDragging, dragStart, position]
+  );
 
   return (
-    // <div style={{ marginTop: y, marginLeft: x }} ref={drag as any}>
-    //   {text}
-    // </div>
     <Text
-      ref={drag as any} // Assign the drag source connector to the ref
+      interactive
+      // buttonMode
+      anchor={new PIXI.Point(0.5, 0.5)}
       text={text}
-      x={x}
-      y={y}
-      alpha={isDragging ? 0.5 : 1}
-      // style={new PIXI.TextStyle(style)}
+      x={position.x}
+      y={position.y}
+      style={new PIXI.TextStyle(style)}
+      onclick={() => {
+        console.log("### clicked");
+      }}
+      pointerdown={onDragStart}
+      pointerup={onDragEnd}
+      pointerupoutside={onDragEnd}
+      pointermove={onDragMove}
     />
   );
 };

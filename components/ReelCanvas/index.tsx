@@ -25,27 +25,22 @@ const ReelCanvas = () => {
   };
 
   return (
-    <DroppableArea onDrop={handleDrop}>
-      <Stage
-        ref={stageRef}
-        options={{ backgroundAlpha: 0 }}
-        width={384}
-        height={675}
-      >
-        {texts.map((text) => (
-          <DraggableText
-            key={text.id}
-            id={text.id.toString()}
-            x={text.x}
-            y={text.y}
-            text={text.text}
-          />
-        ))}
-      </Stage>
+    // <DroppableArea onDrop={handleDrop}>
+    <Stage
+      ref={stageRef}
+      options={{ backgroundAlpha: 0 }}
+      width={384}
+      height={675}
+    >
+      <DraggableText
+        text="Drag me around"
+        initialX={100}
+        initialY={100}
+        style={{ fontFamily: "Arial", fontSize: 24, fill: "red" }}
+      />
+    </Stage>
 
-      {/* <Text text="Hello, World!" x={100} y={100} /> */}
-      {/* <DraggableText id="1" x={texts[0].x} y={texts[0].y} text="Hello world" /> */}
-    </DroppableArea>
+    // </DroppableArea>
   );
 };
 export default ReelCanvas;

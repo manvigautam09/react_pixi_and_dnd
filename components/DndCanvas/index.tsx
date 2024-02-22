@@ -6,6 +6,7 @@ import DraggableText from "./DraggableText";
 const DndCanvas = ({
   texts,
   setTexts,
+  showLabel,
 }: {
   texts: {
     id: number;
@@ -33,6 +34,7 @@ const DndCanvas = ({
       }[]
     >
   >;
+  showLabel?: boolean;
 }) => {
   const handleDrop = (id: string, x: number, y: number) => {
     // Update the position of the sprite that was moved
@@ -54,6 +56,7 @@ const DndCanvas = ({
         y={texts[0].y}
         text={texts[0].text}
         style={texts[0].style}
+        showLabel={showLabel}
       />
     </DroppableArea>
   );

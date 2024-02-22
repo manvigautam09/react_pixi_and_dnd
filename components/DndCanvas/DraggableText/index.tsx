@@ -7,6 +7,7 @@ const DraggableText = ({
   y,
   text,
   style,
+  showLabel,
 }: {
   id: string;
   x: number;
@@ -17,6 +18,7 @@ const DraggableText = ({
     fontSize: number;
     fill: string;
   };
+  showLabel?: boolean;
 }) => {
   const [{ isDragging }, drag] = useDrag(
     () => ({
@@ -30,8 +32,15 @@ const DraggableText = ({
   ); // Depend on id, x, and y to recreate the drag item when they change
 
   return (
-    <div style={{ marginTop: y, marginLeft: x }} ref={drag as any}>
-      {text}
+    <div
+      style={{
+        marginTop: y,
+        marginLeft: x,
+        minHeight: 36,
+      }}
+      ref={drag as any}
+    >
+      {showLabel ? text : ""}
     </div>
   );
 };

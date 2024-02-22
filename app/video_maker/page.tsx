@@ -36,7 +36,7 @@ const VideoMakerApp = () => {
         </div>
         <div className="flex justify-center items-center h-screen bg-[#FBFCFE]">
           <div className="w-full sm:w-96 bg-gray-light-5 h-4/5">
-            <DndCanvas texts={texts} setTexts={setTexts} />
+            <DndCanvas texts={texts} setTexts={setTexts} showLabel={true} />
           </div>
         </div>
         <div className="flex justify-center items-center h-screen bg-red-100 relative">
@@ -44,7 +44,7 @@ const VideoMakerApp = () => {
             <CombinedCanvas texts={texts} setTexts={setTexts} />
           </div>
           <div className="w-full sm:w-96 h-4/5 absolute">
-            <DndCanvas texts={texts} setTexts={setTexts} />
+            <DndCanvas texts={texts} setTexts={setTexts} showLabel={false} />
           </div>
         </div>
       </AppProvider>

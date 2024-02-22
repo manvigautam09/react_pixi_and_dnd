@@ -1,15 +1,29 @@
-import { useRef, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 
 import DroppableArea from "./DroppableArea";
 import DraggableText from "./DraggableText";
 
-const DndCanvas = () => {
-  // State to keep track of sprite positions
-  const [texts, setTexts] = useState([
-    { id: 1, x: 100, y: 100, text: "Hello world" },
-    // ... other sprites
-  ]);
-
+const DndCanvas = ({
+  texts,
+  setTexts,
+}: {
+  texts: {
+    id: number;
+    x: number;
+    y: number;
+    text: string;
+  }[];
+  setTexts: Dispatch<
+    SetStateAction<
+      {
+        id: number;
+        x: number;
+        y: number;
+        text: string;
+      }[]
+    >
+  >;
+}) => {
   const handleDrop = (id: string, x: number, y: number) => {
     // Update the position of the sprite that was moved
     setTexts(
@@ -28,7 +42,7 @@ const DndCanvas = () => {
         id="1"
         x={texts[0].x}
         y={texts[0].y}
-        text="Drag me around"
+        text={texts[0].text}
       />
     </DroppableArea>
   );

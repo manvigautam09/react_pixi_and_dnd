@@ -50,9 +50,6 @@ const DraggableText = ({
       x={position.x}
       y={position.y}
       style={new PIXI.TextStyle(style)}
-      onclick={() => {
-        console.log("### clicked");
-      }}
       pointerdown={onDragStart}
       pointerup={onDragEnd}
       pointerupoutside={onDragEnd}

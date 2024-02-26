@@ -1,7 +1,9 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import { Application } from "pixi.js";
-import { AppProvider, Stage } from "@pixi/react";
+import { AppProvider, Sprite, Stage } from "@pixi/react";
+
+import { SlideType } from "@/utils/types";
 
 const app = new Application();
 
@@ -25,10 +27,10 @@ async function fetchSlideData() {
 
 const Home = () => {
   const stageRef: any = useRef();
-  const [slideData, setSlideData] = useState(null);
+  const [slideData, setSlideData] = useState<SlideType>();
 
   const getSlideData = async () => {
-    const data = await fetchSlideData();
+    const data: SlideType = await fetchSlideData();
     if (data !== undefined) {
       setSlideData(data);
     }
@@ -39,7 +41,8 @@ const Home = () => {
       getSlideData();
     }
   }, [slideData]);
-  console.log("## slideData", slideData);
+
+  const slideType = slideData?.type;
 
   return (
     <AppProvider value={app}>
@@ -49,7 +52,15 @@ const Home = () => {
           options={{ backgroundColor: "#EAECF0EE" }}
           width={400}
           height={700}
-        ></Stage>
+        >
+          {slideType === "image" && (
+            <Sprite
+              image={`http://localhost:3005/slide-image?name=${slideData?.asset}`}
+              width={400}
+              height={700}
+            />
+          )}
+        </Stage>
       </div>
     </AppProvider>
   );

@@ -1,19 +1,11 @@
+import { ITextStyle } from "pixi.js";
+
 export interface TextType {
   id: string;
   title: string;
   rotate?: number;
   position?: { x: number; y: number };
-  color?: string;
-  family?:
-    | "monospace"
-    | "cursive"
-    | "sans-serif"
-    | "serif"
-    | "fantasy"
-    | "system-ui";
-
-  size?: string;
-  weight?: number | string;
+  style?: ITextStyle;
 }
 
 export interface SlideType {

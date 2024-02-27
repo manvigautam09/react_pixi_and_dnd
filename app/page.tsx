@@ -6,26 +6,9 @@ import { AppProvider } from "@pixi/react";
 
 import { SlideType } from "@/utils/types";
 import PixiCanvas from "@/components/PixiCanvas";
+import { fetchSlideData, recordVideoFromPuppeteer } from "@/services/helpers";
 
 const app = new Application();
-
-async function fetchSlideData() {
-  try {
-    const response = await fetch(
-      "http://localhost:3005/pixi-slide?slideNum=1",
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error("Error fetching slide data:", error);
-  }
-}
 
 const Home = () => {
   const [slideData, setSlideData] = useState<SlideType>();
@@ -40,7 +23,7 @@ const Home = () => {
       : 24
   );
   const [recordingVideo, setRecordingVideo] = useState(false);
-
+  console.log("### location", location);
   const videoId =
     location.search.split("?").length > 1
       ? location.search.split("?")[3].split("=")[1]
@@ -124,7 +107,9 @@ const Home = () => {
               borderRadius: 5,
               backgroundColor: "white",
             }}
-            // onClick={recordVideoFromPuppeteer}
+            onClick={() =>
+              recordVideoFromPuppeteer(videoDuration, framePerSecond)
+            }
           >
             Download
           </button>

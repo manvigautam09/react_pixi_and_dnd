@@ -81,6 +81,9 @@ const Home = () => {
               margin: 10,
               paddingLeft: 10,
               paddingRight: 10,
+              border: "slategray 1px solid",
+              borderRadius: 5,
+              backgroundColor: "white",
             }}
             disabled={recordingVideo}
           >
@@ -90,6 +93,9 @@ const Home = () => {
             <option value="60">60</option>
           </select>
 
+          <div className="pl-3 text-sm">
+            Video Duration(Min: 1sec Max: 300sec)
+          </div>
           <input
             type="number"
             min={1}
@@ -100,13 +106,24 @@ const Home = () => {
             style={{
               height: 18,
               margin: 10,
+              marginTop: 0,
+              padding: 18,
               paddingLeft: 10,
               paddingRight: 10,
+              border: "slategray 1px solid",
+              borderRadius: 5,
+              backgroundColor: "white",
             }}
           />
 
           <button
-            style={{ height: 36, margin: 10 }}
+            style={{
+              height: 36,
+              margin: 10,
+              border: "slategray 1px solid",
+              borderRadius: 5,
+              backgroundColor: "white",
+            }}
             // onClick={recordVideoFromPuppeteer}
           >
             Download

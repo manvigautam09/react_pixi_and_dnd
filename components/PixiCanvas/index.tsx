@@ -4,7 +4,11 @@ import { Stage, Sprite, Text } from "@pixi/react";
 
 import { SlideType } from "@/utils/types";
 
-const PixiCanvas = ({ slideData }: { slideData: SlideType }) => {
+interface PixiCanvasProps {
+  slideData: SlideType;
+}
+
+const PixiCanvas = ({ slideData }: PixiCanvasProps) => {
   const stageRef: any = useRef();
 
   const slideType = slideData?.type;

@@ -1,17 +1,23 @@
 "use client";
+// Test URL ?duration=2?fps=24?videoId=d2d4c589-ee23-4dc5-a218-fe738e52cd6a
+import React, { Fragment, useEffect, useRef, useState } from "react";
 
-import React, { useEffect, useRef, useState } from "react";
-import * as PIXI from "pixi.js";
+import { v4 as uuidv4 } from "uuid";
 import { Application } from "pixi.js";
-import { AppProvider, Stage, Sprite, Text } from "@pixi/react";
+import { AppProvider, Sprite, Stage, Text } from "@pixi/react";
 
 import { SlideType } from "@/utils/types";
-import { fetchSlideData, recordVideoFromPuppeteer } from "@/services/helpers";
+import TextLayer from "@/components/TextLayer";
+import { fetchSlideData } from "@/services/helpers";
+import BunnyAnimation from "@/components/BunnyAnimation";
 
 const app = new Application();
 
-const Home = () => {
+const App = () => {
   const stageRef = useRef<any>();
+  const framesData = useRef<any>({});
+  const durationRef = useRef(1);
+  const durationInsideSecondRef = useRef(1);
   const [slideData, setSlideData] = useState<SlideType>();
 
   const getSlideData = async () => {
@@ -27,26 +33,22 @@ const Home = () => {
     }
   }, [slideData]);
 
-  const durationRef = useRef(1);
-  const framesData: any = useRef({});
-  const durationInsideSecondRef = useRef(1);
-
   const [videoDuration, setVideoDuration] = useState(
     location.search.split("?").length > 1
       ? Number(location.search.split("?")[1].split("=")[1])
-      : 1
+      : 2
   );
   const [framePerSecond, setFramePerSecond] = useState(
     location.search.split("?").length > 1
       ? Number(location.search.split("?")[2].split("=")[1])
       : 24
   );
-  const [recordingVideo, setRecordingVideo] = useState(false);
-  // console.log("### location", location);
   const videoId =
     location.search.split("?").length > 1
       ? location.search.split("?")[3].split("=")[1]
       : null;
+  const [recordingVideo, setRecordingVideo] = useState(false);
+  const [showMakeVideo, setShowMakeVideo] = useState(false);
 
   const handleOptionChange = (e: any) => {
     setFramePerSecond(Number(e.target.value));
@@ -56,7 +58,6 @@ const Home = () => {
     setVideoDuration(Number(e.target.value));
   };
 
-  // console.log("### stageRef", stageRef, stageRef.current);
   const recordVideo = () => {
     setRecordingVideo(true);
     if (stageRef.current) {
@@ -72,7 +73,7 @@ const Home = () => {
           //     `image-${framePerSecond * (secIdx - 1) + milliSecondIdx}/png`
           //   );
 
-          framesData.current[secIdx][milliSecondIdx] = frameData;
+          //   framesData.current[secIdx][milliSecondIdx] = blob;
           console.log(framesData.current, secIdx, milliSecondIdx);
           console.log("### videoDuration", videoDuration);
           console.log("### framePerSecond", framePerSecond);
@@ -84,6 +85,8 @@ const Home = () => {
 
           if (secIdx === videoDuration && milliSecondIdx === framePerSecond) {
             setRecordingVideo(false);
+            setShowMakeVideo(true);
+            // makeVideoFromFfmpeg(videoDuration, framePerSecond, videoId);
             const frameRecordedDiv = document.createElement("div");
             frameRecordedDiv.id = `id-${videoId}`;
             frameRecordedDiv.innerHTML = "Video recorded";
@@ -117,12 +120,25 @@ const Home = () => {
     }
   };
 
+  const recordVideoFromPuppeteer = async () => {
+    try {
+      const res = await fetch("http://localhost:3005/record-video", {
+        headers: { "Content-type": "application/json; charset=UTF-8" },
+        method: "POST",
+        body: JSON.stringify({ id: uuidv4(), videoDuration, framePerSecond }),
+      });
+      console.log("### res", res);
+    } catch (error) {
+      console.log("### error", error);
+    }
+  };
+
   const slideType = slideData?.type;
   const text = slideData?.text;
 
   return (
     <AppProvider value={app}>
-      <div className="flex justify-end items-center h-screen bg-[#FBFCFE]">
+      <div className="flex justify-around pt-6">
         <Stage
           ref={stageRef}
           options={{ backgroundColor: "#EAECF0EE" }}
@@ -136,41 +152,10 @@ const Home = () => {
               height={700}
             />
           )}
-
-          {text &&
-            text?.length > 0 &&
-            text.map((t) => (
-              <Text
-                key={t.id}
-                text={t.title}
-                x={t.position?.x || 100}
-                y={t.position?.y || 100}
-                style={
-                  new PIXI.TextStyle({
-                    align: t.style?.align || "center",
-                    fontFamily:
-                      t.style?.fontFamily ||
-                      '"Source Sans Pro", Helvetica, sans-serif',
-                    fontSize: t.style?.fontSize || 20,
-                    fontWeight: t.style?.fontWeight || "400",
-                    fill: t.style?.fill || "#000", // can also add gradient
-                    stroke: t.style?.stroke || "#000",
-                    strokeThickness: t.style?.strokeThickness || 0,
-                    letterSpacing: t.style?.letterSpacing || 1,
-                    dropShadow: t.style?.dropShadow || false,
-                    dropShadowColor: t.style?.dropShadowColor || "#000",
-                    dropShadowBlur: t.style?.dropShadowBlur || 4,
-                    dropShadowAngle: t.style?.dropShadowAngle || Math.PI / 6,
-                    dropShadowDistance: t.style?.dropShadowDistance || 10,
-                    wordWrap: t.style?.wordWrap || true,
-                    wordWrapWidth: t.style?.wordWrapWidth || 440,
-                  })
-                }
-                angle={t.rotate || 0}
-              />
-            ))}
+          <BunnyAnimation />
+          {text && text?.length > 0 && <TextLayer textDetails={text} />}
         </Stage>
-        <div className="flex flex-col justify-start w-[500px] h-full p-16">
+        <div style={{ display: "flex", flexDirection: "column", width: 500 }}>
           <div id="frames-list" style={{ display: "none" }}></div>
           <select
             value={framePerSecond}
@@ -191,14 +176,13 @@ const Home = () => {
             <option value="48">48</option>
             <option value="60">60</option>
           </select>
-
           <div className="pl-3 text-sm">
-            Video Duration(Min: 1sec Max: 300sec)
+            Video Duration(Min: 1sec Max: 30sec)
           </div>
           <input
             type="number"
-            min={1}
-            max={300}
+            min={2}
+            max={30}
             value={videoDuration}
             disabled={recordingVideo}
             onChange={handleInputChange}
@@ -214,6 +198,13 @@ const Home = () => {
               backgroundColor: "white",
             }}
           />
+          <button
+            style={{ height: 36, margin: 10, display: "none" }}
+            onClick={recordVideo}
+            id="record-video-button"
+          >
+            Record video
+          </button>
 
           <button
             style={{
@@ -223,14 +214,9 @@ const Home = () => {
               borderRadius: 5,
               backgroundColor: "white",
             }}
-            onClick={() =>
-              recordVideoFromPuppeteer(videoDuration, framePerSecond)
-            }
+            onClick={recordVideoFromPuppeteer}
           >
             Download
-          </button>
-          <button onClick={recordVideo} id="record-video-button">
-            Record video
           </button>
         </div>
       </div>
@@ -238,4 +224,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default App;

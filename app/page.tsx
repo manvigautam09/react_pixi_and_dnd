@@ -123,7 +123,6 @@ const Home = () => {
   return (
     <AppProvider value={app}>
       <div className="flex justify-end items-center h-screen bg-[#FBFCFE]">
-        {/* {slideData && ( */}
         <Stage
           ref={stageRef}
           options={{ backgroundColor: "#EAECF0EE" }}
@@ -171,7 +170,6 @@ const Home = () => {
               />
             ))}
         </Stage>
-        {/* )} */}
         <div className="flex flex-col justify-start w-[500px] h-full p-16">
           <div id="frames-list" style={{ display: "none" }}></div>
           <select

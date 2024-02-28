@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { MutableRefObject, useRef } from "react";
 import * as PIXI from "pixi.js";
 import { Stage, Sprite, Text } from "@pixi/react";
 
@@ -6,11 +6,10 @@ import { SlideType } from "@/utils/types";
 
 interface PixiCanvasProps {
   slideData: SlideType;
+  stageRef: MutableRefObject<any>;
 }
 
-const PixiCanvas = ({ slideData }: PixiCanvasProps) => {
-  const stageRef: any = useRef();
-
+const PixiCanvas = ({ slideData, stageRef }: PixiCanvasProps) => {
   const slideType = slideData?.type;
   const text = slideData?.text;
   return (

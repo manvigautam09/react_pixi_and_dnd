@@ -138,55 +138,7 @@ const App = () => {
 
   return (
     <AppProvider value={app}>
-      <Fragment>
-        <div style={{ display: "flex", flexDirection: "column", width: 500 }}>
-          <div id="frames-list" style={{ display: "none" }}></div>
-          <select
-            value={framePerSecond}
-            onChange={handleOptionChange}
-            style={{
-              height: 36,
-              margin: 10,
-              paddingLeft: 10,
-              paddingRight: 10,
-            }}
-            disabled={recordingVideo}
-          >
-            <option value="24">Select frames per second (24)</option>
-            <option value="30">30</option>
-            <option value="48">48</option>
-            <option value="60">60</option>
-          </select>
-
-          <input
-            type="number"
-            min={2}
-            max={300}
-            value={videoDuration}
-            disabled={recordingVideo}
-            onChange={handleInputChange}
-            style={{
-              height: 18,
-              margin: 10,
-              paddingLeft: 10,
-              paddingRight: 10,
-            }}
-          />
-          <button
-            style={{ height: 36, margin: 10 }}
-            onClick={recordVideo}
-            id="record-video-button"
-          >
-            Record video
-          </button>
-
-          <button
-            style={{ height: 36, margin: 10 }}
-            onClick={recordVideoFromPuppeteer}
-          >
-            Download
-          </button>
-        </div>
+      <div className="flex justify-around pt-6">
         <Stage
           ref={stageRef}
           options={{ backgroundColor: "#EAECF0EE" }}
@@ -203,18 +155,71 @@ const App = () => {
           <BunnyAnimation />
           {text && text?.length > 0 && <TextLayer textDetails={text} />}
         </Stage>
-
-        {showMakeVideo && (
-          <div style={{ display: "flex", flexDirection: "column", width: 500 }}>
-            <button
-              style={{ height: 36, margin: 10 }}
-              onClick={recordVideoFromPuppeteer}
-            >
-              Save Files
-            </button>
+        <div style={{ display: "flex", flexDirection: "column", width: 500 }}>
+          <div id="frames-list" style={{ display: "none" }}></div>
+          <select
+            value={framePerSecond}
+            onChange={handleOptionChange}
+            style={{
+              height: 36,
+              margin: 10,
+              paddingLeft: 10,
+              paddingRight: 10,
+              border: "slategray 1px solid",
+              borderRadius: 5,
+              backgroundColor: "white",
+            }}
+            disabled={recordingVideo}
+          >
+            <option value="24">Select frames per second (24)</option>
+            <option value="30">30</option>
+            <option value="48">48</option>
+            <option value="60">60</option>
+          </select>
+          <div className="pl-3 text-sm">
+            Video Duration(Min: 1sec Max: 30sec)
           </div>
-        )}
-      </Fragment>
+          <input
+            type="number"
+            min={2}
+            max={30}
+            value={videoDuration}
+            disabled={recordingVideo}
+            onChange={handleInputChange}
+            style={{
+              height: 18,
+              margin: 10,
+              marginTop: 0,
+              padding: 18,
+              paddingLeft: 10,
+              paddingRight: 10,
+              border: "slategray 1px solid",
+              borderRadius: 5,
+              backgroundColor: "white",
+            }}
+          />
+          <button
+            style={{ height: 36, margin: 10, display: "none" }}
+            onClick={recordVideo}
+            id="record-video-button"
+          >
+            Record video
+          </button>
+
+          <button
+            style={{
+              height: 36,
+              margin: 10,
+              border: "slategray 1px solid",
+              borderRadius: 5,
+              backgroundColor: "white",
+            }}
+            onClick={recordVideoFromPuppeteer}
+          >
+            Download
+          </button>
+        </div>
+      </div>
     </AppProvider>
   );
 };

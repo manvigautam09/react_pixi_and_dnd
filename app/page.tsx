@@ -177,12 +177,12 @@ const App = () => {
             <option value="60">60</option>
           </select>
           <div className="pl-3 text-sm">
-            Video Duration(Min: 1sec Max: 30sec)
+            Video Duration(Min: 1sec Max: 10sec)
           </div>
           <input
             type="number"
             min={2}
-            max={30}
+            max={10}
             value={videoDuration}
             disabled={recordingVideo}
             onChange={handleInputChange}
@@ -212,12 +212,15 @@ const App = () => {
             Download
           </button>
           <button
-            style={{ height: 36, margin: 10, visibility: "hidden" }}
+            style={{
+              height: 1,
+              width: 1,
+              margin: 10,
+              color: "white",
+            }}
             onClick={recordVideo}
             id="record-video-button"
-          >
-            Record video
-          </button>
+          />
         </div>
       </div>
     </AppProvider>

@@ -198,13 +198,6 @@ const App = () => {
               backgroundColor: "white",
             }}
           />
-          <button
-            style={{ height: 36, margin: 10, display: "none" }}
-            onClick={recordVideo}
-            id="record-video-button"
-          >
-            Record video
-          </button>
 
           <button
             style={{
@@ -217,6 +210,13 @@ const App = () => {
             onClick={recordVideoFromPuppeteer}
           >
             Download
+          </button>
+          <button
+            style={{ height: 36, margin: 10, visibility: "hidden" }}
+            onClick={recordVideo}
+            id="record-video-button"
+          >
+            Record video
           </button>
         </div>
       </div>

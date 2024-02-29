@@ -73,11 +73,19 @@ export interface AudioInterface {
   volume: number;
 }
 
+export interface SlideBackgroundInterface {
+  type: "image" | "video" | "color";
+  imageUrl?: string;
+  videoUrl?: string;
+  hexCode: string;
+}
+
 export interface SlideInterface {
   id: string;
+  background: SlideBackgroundInterface;
+  layers: LayerType[];
   audio?: AudioInterface;
   transition?: TransitionInterface;
-  layers: LayerType[];
 }
 export interface VideoInterface {
   id: string;

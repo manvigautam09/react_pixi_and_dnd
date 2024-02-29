@@ -1,6 +1,3 @@
-import { Dispatch, MutableRefObject, SetStateAction } from "react";
-import { v4 as uuidv4 } from "uuid";
-
 export async function fetchSlideData() {
   try {
     const response = await fetch(
@@ -18,11 +15,19 @@ export async function fetchSlideData() {
     console.error("Error fetching slide data:", error);
   }
 }
-interface RecordVideoProps {
-  setRecordingVideo: Dispatch<SetStateAction<boolean>>;
-  stageRef: MutableRefObject<any>;
-  videoDuration: Number;
-  framePerSecond: Number;
+export async function fetchVideoData() {
+  try {
+    const response = await fetch("http://localhost:3005/pixi_video", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching slide data:", error);
+  }
 }
 
 // function base64ToBlob(base64, mimeType) {

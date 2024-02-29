@@ -1,14 +1,14 @@
 "use client";
 // Test URL ?duration=2?fps=24?videoId=d2d4c589-ee23-4dc5-a218-fe738e52cd6a
-import React, { Fragment, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { v4 as uuidv4 } from "uuid";
 import { Application } from "pixi.js";
 import { AppProvider, Sprite, Stage, Text } from "@pixi/react";
 
-import { SlideType } from "@/utils/types";
+import { VideoInterface } from "@/utils/types";
 import TextLayer from "@/components/TextLayer";
-import { fetchSlideData } from "@/services/helpers";
+import { fetchVideoData } from "@/services/helpers";
 import BunnyAnimation from "@/components/BunnyAnimation";
 
 const app = new Application();
@@ -18,20 +18,20 @@ const App = () => {
   const framesData = useRef<any>({});
   const durationRef = useRef(1);
   const durationInsideSecondRef = useRef(1);
-  const [slideData, setSlideData] = useState<SlideType>();
+  const [videoJson, setVideoJson] = useState<VideoInterface>();
 
-  const getSlideData = async () => {
-    const data: SlideType = await fetchSlideData();
+  const getVideoJson = async () => {
+    const data: VideoInterface = await fetchVideoData();
     if (data !== undefined) {
-      setSlideData(data);
+      setVideoJson(data);
     }
   };
 
   useEffect(() => {
-    if (!slideData) {
-      getSlideData();
+    if (!videoJson) {
+      getVideoJson();
     }
-  }, [slideData]);
+  }, [videoJson]);
 
   const [videoDuration, setVideoDuration] = useState(
     location.search.split("?").length > 1
@@ -133,8 +133,9 @@ const App = () => {
     }
   };
 
-  const slideType = slideData?.type;
-  const text = slideData?.text;
+  const slideType = videoJson?.slides[0].background.type;
+
+  // const text = videoJson?.text;
 
   return (
     <AppProvider value={app}>
@@ -147,13 +148,13 @@ const App = () => {
         >
           {slideType === "image" && (
             <Sprite
-              image={`http://localhost:3005/slide-image?name=${slideData?.asset}`}
+              image={videoJson?.slides[0].background.imageUrl}
               width={400}
               height={700}
             />
           )}
           <BunnyAnimation />
-          {text && text?.length > 0 && <TextLayer textDetails={text} />}
+          {/* {text && text?.length > 0 && <TextLayer textDetails={text} />} */}
         </Stage>
         <div style={{ display: "flex", flexDirection: "column", width: 500 }}>
           <div id="frames-list" style={{ display: "none" }}></div>

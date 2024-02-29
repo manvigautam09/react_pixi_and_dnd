@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 import { Application } from "pixi.js";
 import { AppProvider, Sprite, Stage, Text } from "@pixi/react";
 
-import { VideoInterface } from "@/utils/types";
+import { TextLayerInterface, VideoInterface } from "@/utils/types";
 import TextLayer from "@/components/TextLayer";
 import { fetchVideoData } from "@/services/helpers";
 import BunnyAnimation from "@/components/BunnyAnimation";
@@ -135,7 +135,9 @@ const App = () => {
 
   const slideType = videoJson?.slides[0].background.type;
 
-  // const text = videoJson?.text;
+  const text = videoJson?.slides[0].layers.filter(
+    (item) => item.type === "text"
+  );
 
   return (
     <AppProvider value={app}>
@@ -154,7 +156,9 @@ const App = () => {
             />
           )}
           <BunnyAnimation />
-          {/* {text && text?.length > 0 && <TextLayer textDetails={text} />} */}
+          {text && text?.length > 0 && (
+            <TextLayer textDetails={text as TextLayerInterface[]} />
+          )}
         </Stage>
         <div style={{ display: "flex", flexDirection: "column", width: 500 }}>
           <div id="frames-list" style={{ display: "none" }}></div>

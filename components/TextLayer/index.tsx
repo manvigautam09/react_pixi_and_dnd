@@ -1,14 +1,14 @@
 import * as PIXI from "pixi.js";
 import { Text } from "@pixi/react";
 
-import { TextType } from "@/utils/types";
+import { TextLayerInterface } from "@/utils/types";
 import { Fragment, useCallback, useState } from "react";
 
 interface TextLayerProps {
-  textDetails: TextType[];
+  textDetails: TextLayerInterface[];
 }
 
-const TextComponent = ({ t }: { t: TextType }) => {
+const TextComponent = ({ t }: { t: TextLayerInterface }) => {
   const [position, setPosition] = useState({
     x: t.position?.x || 100,
     y: t.position?.y || 100,

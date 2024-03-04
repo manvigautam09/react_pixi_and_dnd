@@ -2,9 +2,8 @@ import { ITextStyle } from "pixi.js";
 
 type AspectRatio = "16:9 | 1:1 | 4:5 | 9:16";
 export interface TransitionInterface {
-  duration: number;
-  enter: "fade" | "slide" | "zoom" | "none"; // can be more according to what we decide
-  exit: "fade" | "slide" | "zoom" | "none";
+  enter: { type: "fade" | "slide" | "zoom" | "none"; duration: number }; // can be more according to what we decide
+  exit: { type: "fade" | "slide" | "zoom" | "none"; duration: number };
   direction: "left | right | up | down";
 }
 

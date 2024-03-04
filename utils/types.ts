@@ -19,6 +19,8 @@ export interface TextLayerInterface {
   };
   transition?: TransitionInterface;
   style?: ITextStyle;
+  startTime: number;
+  endTime: number;
 }
 
 export interface ImageLayerInterface {
@@ -35,6 +37,8 @@ export interface ImageLayerInterface {
     height: number;
     objectFit: "cover" | "contain";
   };
+  startTime?: number;
+  endTime?: number;
 }
 
 export interface StickerLayerInterface {
@@ -50,6 +54,8 @@ export interface StickerLayerInterface {
     type: "bounce | shake | rotate | flip";
     duration: number;
   };
+  startTime?: number;
+  endTime?: number;
 }
 
 export type LayerType =
@@ -74,6 +80,7 @@ export interface SlideBackgroundInterface {
 
 export interface SlideInterface {
   id: string;
+  duration: number;
   background: SlideBackgroundInterface;
   layers: LayerType[];
   audio?: AudioInterface;

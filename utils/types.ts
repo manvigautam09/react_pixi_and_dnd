@@ -87,6 +87,7 @@ export interface SlideInterface {
 }
 export interface VideoInterface {
   id: string;
+  projectName: string;
   aspectRatio: AspectRatio;
   thumbnail?: string;
   slides: SlideInterface[];

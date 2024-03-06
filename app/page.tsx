@@ -1,15 +1,13 @@
 "use client";
 // Test URL ?duration=2?fps=24?videoId=d2d4c589-ee23-4dc5-a218-fe738e52cd6a
 import React, { useEffect, useRef, useState } from "react";
-
 import { v4 as uuidv4 } from "uuid";
 import { Application } from "pixi.js";
-import { AppProvider, Sprite, Stage, Text } from "@pixi/react";
+import { AppProvider } from "@pixi/react";
 
-import { TextLayerInterface, VideoInterface } from "@/utils/types";
-import TextLayer from "@/components/TextLayer";
+import { VideoInterface } from "@/utils/types";
+import PixiSlide from "@/components/PixiSlide";
 import { fetchVideoData } from "@/services/helpers";
-import BunnyAnimation from "@/components/BunnyAnimation";
 
 const app = new Application();
 
@@ -48,7 +46,7 @@ const App = () => {
       ? location.search.split("?")[3].split("=")[1]
       : null;
   const [recordingVideo, setRecordingVideo] = useState(false);
-  const [showMakeVideo, setShowMakeVideo] = useState(false);
+  // const [showMakeVideo, setShowMakeVideo] = useState(false);
 
   const handleOptionChange = (e: any) => {
     setFramePerSecond(Number(e.target.value));
@@ -85,7 +83,7 @@ const App = () => {
 
           if (secIdx === videoDuration && milliSecondIdx === framePerSecond) {
             setRecordingVideo(false);
-            setShowMakeVideo(true);
+            // setShowMakeVideo(true);
             // makeVideoFromFfmpeg(videoDuration, framePerSecond, videoId);
             const frameRecordedDiv = document.createElement("div");
             frameRecordedDiv.id = `id-${videoId}`;
@@ -133,33 +131,17 @@ const App = () => {
     }
   };
 
-  const slideType = videoJson?.slides[0].background.type;
-
-  const text = videoJson?.slides[0].layers.filter(
-    (item) => item.type === "text"
-  );
+  const slides = videoJson?.slides;
 
   return (
     <AppProvider value={app}>
       <div className="flex justify-around pt-6">
-        <Stage
-          ref={stageRef}
-          options={{ backgroundColor: "#EAECF0EE" }}
-          width={400}
-          height={700}
-        >
-          {slideType === "image" && (
-            <Sprite
-              image={videoJson?.slides[0].background.imageUrl}
-              width={400}
-              height={700}
-            />
-          )}
-          <BunnyAnimation />
-          {text && text?.length > 0 && (
-            <TextLayer textDetails={text as TextLayerInterface[]} />
-          )}
-        </Stage>
+        {slides &&
+          slides.length &&
+          slides.map((slideDetail) => (
+            <PixiSlide key={slideDetail.id} slideDetail={slideDetail} />
+          ))}
+
         <div style={{ display: "flex", flexDirection: "column", width: 500 }}>
           <div id="frames-list" style={{ display: "none" }}></div>
           <select

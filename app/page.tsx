@@ -140,7 +140,11 @@ const App = () => {
           {slides &&
             slides.length &&
             slides.map((slideDetail) => (
-              <PixiSlide key={slideDetail.id} slideDetail={slideDetail} />
+              <PixiSlide
+                key={slideDetail.id}
+                slideDetail={slideDetail}
+                ref={stageRef}
+              />
             ))}
         </div>
 

@@ -136,11 +136,13 @@ const App = () => {
   return (
     <AppProvider value={app}>
       <div className="flex justify-around pt-6">
-        {slides &&
-          slides.length &&
-          slides.map((slideDetail) => (
-            <PixiSlide key={slideDetail.id} slideDetail={slideDetail} />
-          ))}
+        <div className="flex flex-wrap">
+          {slides &&
+            slides.length &&
+            slides.map((slideDetail) => (
+              <PixiSlide key={slideDetail.id} slideDetail={slideDetail} />
+            ))}
+        </div>
 
         <div style={{ display: "flex", flexDirection: "column", width: 500 }}>
           <div id="frames-list" style={{ display: "none" }}></div>

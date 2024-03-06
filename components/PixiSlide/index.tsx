@@ -2,7 +2,7 @@ import { forwardRef, RefObject } from "react";
 import { Sprite, Stage } from "@pixi/react";
 
 import TextLayer from "../TextLayer";
-import BunnyAnimation from "../BunnyAnimation";
+// import BunnyAnimation from "../BunnyAnimation";
 import { SlideInterface, TextLayerInterface } from "@/utils/types";
 
 interface PixiSlideProps {
@@ -28,7 +28,7 @@ const PixiSlide = forwardRef((props: PixiSlideProps, ref) => {
           height={700}
         />
       )}
-      <BunnyAnimation />
+      {/* <BunnyAnimation /> */}
       {text && text?.length > 0 && (
         <TextLayer textDetails={text as TextLayerInterface[]} />
       )}
